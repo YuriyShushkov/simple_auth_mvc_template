@@ -15,7 +15,10 @@ namespace simple_web_template
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            Database.SetInitializer<UserContext>(new UserDbInitializer());
+
+            var initializer = new UserDbInitializer();
+            Database.SetInitializer<AppDbContext>(initializer);
+            initializer.Init();
         }
     }
 }

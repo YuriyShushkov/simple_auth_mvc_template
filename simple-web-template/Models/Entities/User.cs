@@ -9,7 +9,7 @@ namespace simple_web_template.Models
     {
         public int Id { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string Password_Hash { get; set; }
         public Role Role { get; set; }
         public int RoleId { get; set; }
     }
