@@ -10,19 +10,25 @@ using System.Web.Security;
 using Microsoft.Owin.Security;
 using simple_web_template.Common;
 using simple_web_template.Models;
+using simple_web_template.Models.Operations;
 using simple_web_template.Models.ViewModels;
 
 namespace simple_web_template.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        AppDbContext db = new AppDbContext();
+        private LoginOperations _loginOperations;
         private IAuthenticationManager AuthenticationManager
         {
             get
             {
                 return HttpContext.GetOwinContext().Authentication;
             }
+        }
+
+        public AccountController()
+        {
+            _loginOperations = new LoginOperations(_context);
         }
 
         public ActionResult Login()
@@ -36,8 +42,8 @@ namespace simple_web_template.Controllers
         {
             if (ModelState.IsValid)
             {
-                var inputPasswordHash = model.Password.ToMd5();
-                User user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == model.Email && u.Password_Hash == inputPasswordHash);
+
+                User user = _loginOperations.Authentificate(model.Email, model.Password);
 
                 if (user == null)
                 {

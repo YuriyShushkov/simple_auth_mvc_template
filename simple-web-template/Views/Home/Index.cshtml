@@ -3,5 +3,17 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Main page of our application</h2>
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        <div><a href="account/logout">Logout</a></div>
+    }
+    else
+    {
+        <div><a href="account/login">Login</a></div>
+    }
+}
+
+
 
